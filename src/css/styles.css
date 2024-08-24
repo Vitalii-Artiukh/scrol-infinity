@@ -98,7 +98,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
-  margin-bottom: 32px;
+  margin-bottom: 12px;
 }
 
 .gallery-card {

@@ -6,7 +6,7 @@ import { createGalleryCard } from './js/render-functions';
 const formSerched = document.querySelector('.js-search-form');
 const gallery = document.querySelector('.js-gallery');
 const preloader = document.querySelector('.preloader-wrap');
-const moreBtn = document.querySelector('.js-load-more-btn');
+const scrollMarkerEl = document.querySelector('.js-scroll-infinity');
 
 let searchResault = '';
 let numberPage = 1;
@@ -20,7 +20,6 @@ const forRefresh = new SimpleLightbox('.js-gallery a', {
 
 const submitSearchPhoto = async event => {
   try {
-    moreBtn.classList.add('is-visible');
     preloader.classList.remove('is-visible');
     event.preventDefault();
     numberPage = 1;
@@ -54,9 +53,7 @@ const submitSearchPhoto = async event => {
       .join('');
 
     gallery.innerHTML = photoCardsInfo;
-    heightCard = document
-      .querySelector('.gallery-card')
-      .getBoundingClientRect();
+    observer.observe(scrollMarkerEl);
   } catch (error) {
     iziToast.error({
       title: `${error}`,
@@ -69,60 +66,53 @@ const submitSearchPhoto = async event => {
   }
 
   preloader.classList.add('is-visible');
-  moreBtn.classList.remove('is-visible');
   forRefresh.refresh();
   numberPage += 1;
+};
 
-  if (Math.ceil(quantityPages) < numberPage) {
-    iziToast.info({
-      message: "We're sorry, but you've reached the end of search results.",
-      position: 'topRight',
-    });
-    moreBtn.classList.add('is-visible');
+const scrollObserverOptions = {
+  root: null,
+  rootMargin: '0px 0px 400px 0px',
+  threshold: 1,
+};
+
+const observeMorePhoto = async scrolling => {
+  console.log(scrolling);
+  if (scrolling[0].isIntersecting) {
+    try {
+      const response = await fetchToPixabay(searchResault, numberPage);
+
+      if (Math.ceil(quantityPages) >= numberPage) {
+        const photoCardsInfo = response.data.hits
+          .map(details => createGalleryCard(details))
+          .join('');
+
+        gallery.insertAdjacentHTML('beforeend', photoCardsInfo);
+      }
+
+      forRefresh.refresh();
+
+      numberPage += 1;
+
+      if (Math.ceil(quantityPages) < numberPage) {
+        iziToast.info({
+          message: "We're sorry, but you've reached the end of search results.",
+          position: 'topRight',
+        });
+      }
+    } catch (error) {
+      iziToast.error({
+        title: `${error}`,
+        position: 'center',
+        backgroundColor: '#ef4040',
+      });
+    }
   }
 };
 
-const addMorePhoto = async event => {
-  try {
-    preloader.classList.remove('is-visible');
-
-    const response = await fetchToPixabay(searchResault, numberPage);
-
-    if (Math.ceil(quantityPages) >= numberPage) {
-      const photoCardsInfo = response.data.hits
-        .map(details => createGalleryCard(details))
-        .join('');
-
-      gallery.insertAdjacentHTML('beforeend', photoCardsInfo);
-      window.scrollBy({
-        top: heightCard.height * 2,
-        behavior: 'smooth',
-      });
-    }
-    moreBtn.classList.add('is-visible');
-
-    forRefresh.refresh();
-
-    preloader.classList.add('is-visible');
-    moreBtn.classList.remove('is-visible');
-    numberPage += 1;
-
-    if (Math.ceil(quantityPages) < numberPage) {
-      iziToast.info({
-        message: "We're sorry, but you've reached the end of search results.",
-        position: 'topRight',
-      });
-      moreBtn.classList.add('is-visible');
-    }
-  } catch (error) {
-    iziToast.error({
-      title: `${error}`,
-      position: 'center',
-      backgroundColor: '#ef4040',
-    });
-    preloader.classList.add('is-visible');
-  }
-};
+const observer = new IntersectionObserver(
+  observeMorePhoto,
+  scrollObserverOptions
+);
 
 formSerched.addEventListener('submit', submitSearchPhoto);
-moreBtn.addEventListener('click', addMorePhoto);
