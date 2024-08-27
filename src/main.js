@@ -7,6 +7,7 @@ const formSerched = document.querySelector('.js-search-form');
 const gallery = document.querySelector('.js-gallery');
 const preloader = document.querySelector('.preloader-wrap');
 const scrollMarkerEl = document.querySelector('.js-scroll-infinity');
+const goTopBtn = document.querySelector('.js-go-top');
 
 let searchResault = '';
 let numberPage = 1;
@@ -94,6 +95,8 @@ const observeMorePhoto = async scrolling => {
 
       numberPage += 1;
 
+      goTopBtn.classList.remove('is-hidden');
+
       if (Math.ceil(quantityPages) < numberPage) {
         iziToast.info({
           message: "We're sorry, but you've reached the end of search results.",
@@ -116,3 +119,13 @@ const observer = new IntersectionObserver(
 );
 
 formSerched.addEventListener('submit', submitSearchPhoto);
+
+const goTop = () => {
+  if (window.pageYOffset > 0) {
+    window.scrollBy(0, -75);
+    setTimeout(goTop, 0);
+  }
+  goTopBtn.classList.add('is-hidden');
+};
+
+goTopBtn.addEventListener('click', goTop);

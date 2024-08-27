@@ -241,3 +241,31 @@
 .is-visible {
   display: none;
 }
+
+.js-go-top {
+  font-size: 48px;
+  color: rgba(19, 18, 18, 0.2);
+  position: fixed;
+  right: 20px;
+  top: 80%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 10px;
+  border: 1px solid rgba(19, 18, 18, 0.2);
+  background-color: rgba(19, 18, 18, 0.05);
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+}
+
+.js-go-top:hover {
+  color: rgba(19, 18, 18, 0.5);
+  border: 1px solid rgba(19, 18, 18, 0.5);
+  background-color: rgba(19, 18, 18, 0.15);
+}
+
+.is-hidden {
+  display: none;
+}
