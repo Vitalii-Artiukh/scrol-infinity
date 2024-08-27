@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><goit-js-hw-11></goit-js-hw-11></title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/2.0.0/modern-normalize.min.css"
+      integrity="sha512-4xo8blKMVCiXpTaLzQSLSw3KFOVPWhm/TRtuPVc4WG6kUgjH6J03IBuG7JZPkcWMxJ5huwaBpOpnwYElP/m6wg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    
+    <script type="module" crossorigin src="/scrol-infinity/commonHelpers.js"></script>
+    <link rel="modulepreload" crossorigin href="/scrol-infinity/assets/vendor-d93b82f1.js">
+    <link rel="stylesheet" href="/scrol-infinity/assets/index-25609f69.css">
+  </head>
+
+  <body>
+    <div class="preloader-wrap is-visible">
+      <div class="preloader">
+        <div class="loading-circle loading-circle-one"></div>
+        <div class="loading-circle loading-circle-two"></div>
+        <div class="loading-circle loading-circle-three"></div>
+      </div>
+    </div>
+
+    <section class="gallery-section">
+      <div class="container">
+        <form class="search-form js-search-form">
+          <input
+            class="search-input js-search-input"
+            type="text"
+            name="user_query"
+            placeholder="Search images..."
+            required
+          />
+          <button class="search-btn" type="submit">Search</button>
+        </form>
+        <ul class="gallery js-gallery"></ul>
+        <div class="js-scroll-infinity"></div>
+      </div>
+    </section>
+    <div class="js-go-top is-hidden">↑</div>
+
+    
+  </body>
+</html>
