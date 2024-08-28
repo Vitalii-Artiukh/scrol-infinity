@@ -95,8 +95,6 @@ const observeMorePhoto = async scrolling => {
 
       numberPage += 1;
 
-      goTopBtn.classList.remove('is-hidden');
-
       if (Math.ceil(quantityPages) < numberPage) {
         iziToast.info({
           message: "We're sorry, but you've reached the end of search results.",
@@ -128,4 +126,13 @@ const goTop = () => {
   goTopBtn.classList.add('is-hidden');
 };
 
+const goTopWive = () => {
+  const wiveSet = window.pageYOffset;
+  const coordinats = document.documentElement.clientHeight;
+  if (wiveSet > coordinats) {
+    goTopBtn.classList.remove('is-hidden');
+  }
+};
+
 goTopBtn.addEventListener('click', goTop);
+addEventListener('scroll', goTopWive);
