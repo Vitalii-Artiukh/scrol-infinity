@@ -123,7 +123,6 @@ const goTop = () => {
     window.scrollBy(0, -75);
     setTimeout(goTop, 0);
   }
-  goTopBtn.classList.add('is-hidden');
 };
 
 const goTopWive = () => {
@@ -131,6 +130,8 @@ const goTopWive = () => {
   const coordinats = document.documentElement.clientHeight;
   if (wiveSet > coordinats) {
     goTopBtn.classList.remove('is-hidden');
+  } else {
+    goTopBtn.classList.add('is-hidden');
   }
 };
 
